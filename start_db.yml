@@ -1,0 +1,27 @@
+---
+
+- name: Start testdb host
+  hosts: testdb3
+  gather_facts: yes
+
+  pre_tasks:
+ 
+    - name: Update server
+      apt:
+        update_cache: yes
+        upgrade: full
+
+    - name: Check if a reboot is needed for Debian and Ubuntu boxes
+      stat:
+        path: /var/run/reboot-required
+        get_checksum: no
+      register: reboot_required_file
+
+    - name: Reboot VM
+      reboot:
+        connect_timeout: 10
+        reboot_timeout: 90
+      when: reboot_required_file.stat.exists
+
+  roles:
+    - role: unxnn.mysql

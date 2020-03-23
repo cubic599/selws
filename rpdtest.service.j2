@@ -1,0 +1,13 @@
+[Unit]
+Description=RPD TEST
+
+[Service]
+{#
+ExecStartPre=/bin/sleep 30
+#}
+ExecStart=/usr/bin/python3 {{ rpd_test_path }}
+Environment=MYSQL_USER={{ GB_MYSQL_USER }} MYSQL_PASSWORD={{ GB_MYSQL_PASSWORD }} MYSQL_SERVER_ADDRESS={{ GB_MYSQL_SERVER_ADDRESS }} MYSQL_DATABASE={{ GB_MYSQL_DATABASE }}
+Environment=APP_ADDRESS={{ GB_APP_ADDRESS }} GUESTBOOKAPP_PORT={{ GB_GUESTBOOKAPP_PORT }}
+
+[Install]
+WantedBy=multi-user.target

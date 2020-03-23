@@ -1,0 +1,35 @@
+---
+
+- name: Create directory for site example.com
+  file:
+    path: "/var/www/{{ GB_WEB_SITE }}/html"
+    state: directory
+    mode: '755'
+
+- name: Get files on remote machine
+  find:
+    paths: "{{ rpd_test_path }}/front/"
+  register: my_find
+
+- name: Copy files from front dir
+  copy:
+    src: "{{ item.path }}"
+    dest: "/var/www/{{ GB_WEB_SITE }}/html/"
+    remote_src: yes
+  with_items: "{{ my_find.files }}"
+
+- name: Make sites-available file
+  template:
+    src: sites-available.j2
+    dest: "/etc/nginx/sites-available/{{ GB_WEB_SITE }}"
+
+- name: Create a symbolic link
+  file:
+    src: "/etc/nginx/sites-available/{{ GB_WEB_SITE }}"
+    dest: "/etc/nginx/sites-enabled/{{ GB_WEB_SITE }}"
+    state: link
+
+- name: restart service nginx
+  systemd:
+    name: nginx.service
+    state: reloaded

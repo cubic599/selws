@@ -1,0 +1,24 @@
+---
+
+- name: Create directory
+  file:
+    path: "{{ rpd_test_path }}"
+    state: directory
+
+- name: Clone repository
+  git:
+    repo: "{{ rpd_test_repo }}"
+    dest: "{{ rpd_test_path }}"
+
+- name: Make systemd unit file
+  template:
+    src: rpdtest.service.j2
+    dest: /etc/systemd/system/rpdtest.service
+    mode: '0777'
+
+- name: enable service rpdtest and ensure it is not masked
+  systemd:
+    name: rpdtest
+    enabled: yes
+    masked: no
+    state: started

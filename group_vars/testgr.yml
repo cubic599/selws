@@ -1,0 +1,38 @@
+---
+# var file for testdb group
+
+packet_list:
+  - git
+  - python3-pip
+  - python3-setuptools
+  - libev-dev
+  - mysql-client
+  - nginx
+
+pip_packages:
+  - SQLAlchemy
+  - SQLAlchemy-Utils
+  - flask
+  - PyMySQL
+  - bjoern
+  - pytest
+  - cryptography
+
+rpd_test_path: /usr/bin/rpd_test
+rpd_test_repo: https://github.com/murik099/rpd_test.git
+
+GB_MYSQL_USER: gbusr
+GB_MYSQL_PASSWORD: secret2W
+GB_MYSQL_SERVER_ADDRESS: 10.90.40.27
+GB_MYSQL_DATABASE: gbdb
+GB_MYSQL_USER_HOST: 10.90.40.25
+GB_APP_ADDRESS: 127.0.0.1
+GB_GUESTBOOKAPP_PORT: 5000
+
+GB_WEB_SITE: example.com
+
+mysql_users:
+   - name: "{{ GB_MYSQL_USER }}"
+     host: "{{ GB_MYSQL_USER_HOST }}"
+     password: "{{ GB_MYSQL_PASSWORD }}"
+     priv: "*.*:ALL"

@@ -1,0 +1,9 @@
+---
+
+- name: START RPD-TEST
+  hosts: rpdtest
+
+  tasks:
+    - include: packets.yml
+    - include: service.yml
+    - include: web.yml
